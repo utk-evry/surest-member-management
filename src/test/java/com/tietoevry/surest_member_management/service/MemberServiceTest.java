@@ -10,7 +10,9 @@ import com.tietoevry.surest_member_management.mapper.MemberResponseMapper;
 import com.tietoevry.surest_member_management.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 
 import java.time.LocalDate;
@@ -20,6 +22,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
 
     @Mock
@@ -39,25 +42,24 @@ class MemberServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
 
         member = new Member();
         member.setId(memberId);
-        member.setFirstName("John");
-        member.setLastName("Doe");
+        member.setFirstName("Utkrisht");
+        member.setLastName("Kumar");
         member.setDateOfBirth(LocalDate.of(1990, 1, 1));
-        member.setEmail("john.doe@example.com");
+        member.setEmail("utkrisht.kumar@gmail.com");
 
         memberDto = new MemberResponseDto();
         memberDto.setId(memberId);
-        memberDto.setFirstName("John");
-        memberDto.setLastName("Doe");
+        memberDto.setFirstName("Utkrisht");
+        memberDto.setLastName("Kumar");
         memberDto.setDateOfBirth(member.getDateOfBirth());
         memberDto.setEmail(member.getEmail());
 
         createDto = new MemberCreateDto();
-        createDto.setFirstName("John");
-        createDto.setLastName("Doe");
+        createDto.setFirstName("Utkrisht");
+        createDto.setLastName("Kumar");
         createDto.setDateOfBirth(member.getDateOfBirth());
         createDto.setEmail(member.getEmail());
     }

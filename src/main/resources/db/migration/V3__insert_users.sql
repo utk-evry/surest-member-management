@@ -2,11 +2,11 @@ INSERT INTO app_user (username, password_hash, role_id)
 VALUES
     (
         'user',
-        '$2a$10$7EqJtq98hPqEX7fNZaFWoOeY5f4Y9fI8e1N7WwC4UuH9l2Y8O8c4y',
+        '$2a$10$duoX2d/N4FcqkgsuS7ufI.AHlUHpvsHst26cJCXLpebAw.H9FK2gK',
         (SELECT id FROM role WHERE name = 'USER')
     ),
     (
         'admin',
-        '$2a$10$7EqJtq98hPqEX7fNZaFWoOeY5f4Y9fI8e1N7WwC4UuH9l2Y8O8c4y',
+        '$2a$10$giBXBeqHEkDzaB2r1fAgq.ldTI1Gbr3dqIpTgOJ9u3wV29LQrlKLK',
         (SELECT id FROM role WHERE name = 'ADMIN')
     );
