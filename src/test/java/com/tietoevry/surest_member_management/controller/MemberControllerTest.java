@@ -2,7 +2,7 @@ package com.tietoevry.surest_member_management.controller;
 
 import com.tietoevry.surest_member_management.dto.MemberCreateDto;
 import com.tietoevry.surest_member_management.dto.MemberResponseDto;
-import com.tietoevry.surest_member_management.service.MemberService;
+import com.tietoevry.surest_member_management.service.impl.MemberServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 class MemberControllerTest {
 
     @Mock
-    private MemberService memberService;
+    private MemberServiceImpl memberService;
 
     @InjectMocks
     private MemberController memberController;

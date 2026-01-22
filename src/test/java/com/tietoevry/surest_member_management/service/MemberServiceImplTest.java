@@ -8,6 +8,7 @@ import com.tietoevry.surest_member_management.exception.EmailAlreadyExistsExcept
 import com.tietoevry.surest_member_management.exception.MemberNotFoundException;
 import com.tietoevry.surest_member_management.mapper.MemberResponseMapper;
 import com.tietoevry.surest_member_management.repository.MemberRepository;
+import com.tietoevry.surest_member_management.service.impl.MemberServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,14 +17,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class MemberServiceTest {
+class MemberServiceImplTest {
 
     @Mock
     private MemberRepository memberRepository;
@@ -32,7 +32,7 @@ class MemberServiceTest {
     private MemberResponseMapper memberResponseMapper;
 
     @InjectMocks
-    private MemberService memberService;
+    private MemberServiceImpl memberService;
 
     private Member member;
     private MemberResponseDto memberDto;
