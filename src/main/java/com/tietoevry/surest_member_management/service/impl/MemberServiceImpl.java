@@ -9,6 +9,7 @@ import com.tietoevry.surest_member_management.mapper.MemberResponseMapper;
 import com.tietoevry.surest_member_management.repository.MemberRepository;
 import com.tietoevry.surest_member_management.service.MemberService;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -32,17 +34,24 @@ public class MemberServiceImpl implements MemberService {
         this.memberResponseMapper = memberResponseMapper;
     }
 
-    @Cacheable(value = "members", key="#id")
-    public MemberResponseDto getMemberById(UUID id){
+    @Cacheable(value = "members", key = "#id")
+    public MemberResponseDto getMemberById(UUID id) {
+        log.debug("Fetching member by id={}", id);
+
         Optional<Member> memberOp = memberRepository.findById(id);
 
-        if(memberOp.isEmpty()) throw new MemberNotFoundException("No such member with that id is found.");
+        if (memberOp.isEmpty()) {
+            log.warn("Member with id={} not found", id);
+            throw new MemberNotFoundException("No such member with that id is found.");
+        }
 
+        log.debug("Member with id={} fetched successfully", id);
         return memberResponseMapper.toDto(memberOp.get());
 
     }
 
-    public Page<MemberResponseDto> getAllMembers(int page, int size,String sortBy, String sortDir){
+    public Page<MemberResponseDto> getAllMembers(int page, int size, String sortBy, String sortDir) {
+        log.debug("Fetching all members page={}, size={}, sortBy={}, sortDir={}", page, size, sortBy, sortDir);
 
         Sort sort = sortDir.equalsIgnoreCase("desc")
                 ? Sort.by(sortBy).descending()
@@ -51,13 +60,16 @@ public class MemberServiceImpl implements MemberService {
 
         Page<Member> memberPage = memberRepository.findAll(pageable);
 
+        log.debug("Fetched {} members from repository", memberPage.getTotalElements());
         return memberPage.map(memberResponseMapper::toDto);
     }
 
     @Transactional
-    public MemberResponseDto createMember(MemberCreateDto requestMember){
+    public MemberResponseDto createMember(MemberCreateDto requestMember) {
 
-        if(memberRepository.existsByEmail(requestMember.getEmail())){
+        log.debug("Creating member with email={}", requestMember.getEmail());
+        if (memberRepository.existsByEmail(requestMember.getEmail())) {
+            log.warn("Attempt to create member failed: email={} already exists", requestMember.getEmail());
             throw new EmailAlreadyExistsException("Email ID already Exists.");
         }
 
@@ -69,15 +81,18 @@ public class MemberServiceImpl implements MemberService {
 
         Member saved = memberRepository.saveAndFlush(newMember);
 
+        log.info("Member created successfully with id={}", saved.getId());
         return memberResponseMapper.toDto(saved);
 
     }
 
     @Transactional
-    @CachePut(value = "members", key = "#id")
-    public MemberResponseDto updateMember(UUID id, MemberCreateDto requestMember){
+    @CacheEvict(value = "members", key = "#id")
+    public MemberResponseDto updateMember(UUID id, MemberCreateDto requestMember) {
+
+        log.debug("Updating member with id={}", id);
         Optional<Member> memberOp = memberRepository.findById(id);
-        if(memberOp.isEmpty()) throw new MemberNotFoundException("No such member with that id is found.");
+        if (memberOp.isEmpty()) throw new MemberNotFoundException("No such member with that id is found.");
 
         Member toBeupdatedMember = memberOp.get();
         toBeupdatedMember.setFirstName(requestMember.getFirstName());
@@ -87,16 +102,22 @@ public class MemberServiceImpl implements MemberService {
 
         Member updatedMember = memberRepository.save(toBeupdatedMember);
 
+        log.info("Member with id={} updated successfully", updatedMember.getId());
         return memberResponseMapper.toDto(updatedMember);
 
     }
 
     @Transactional
     @CacheEvict(value = "members", key = "#id")
-    public void deleteMember(UUID id){
-        Optional<Member> memberOp = memberRepository.findById(id);
-        if(memberOp.isEmpty()) throw new MemberNotFoundException("No such member with that id is found.");
+    public void deleteMember(UUID id) {
 
+        log.debug("Deleting member with id={}", id);
+
+        Optional<Member> memberOp = memberRepository.findById(id);
+        if (memberOp.isEmpty()) {
+            log.warn("Attempt to delete failed: member id={} not found", id);
+            throw new MemberNotFoundException("No such member with that id is found.");
+        }
         memberRepository.delete(memberOp.get());
 
     }

@@ -4,6 +4,7 @@ import com.tietoevry.surest_member_management.dto.AuthRequestDto;
 import com.tietoevry.surest_member_management.dto.AuthResponseDto;
 import com.tietoevry.surest_member_management.security.JwtUtil;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "/api/v1/auth", produces = {MediaType.APPLICATION_JSON_VALUE})
 public class AuthController {
@@ -28,6 +30,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> login(@Valid @RequestBody AuthRequestDto req){
+
+        log.info(
+                "Hit Endpoint: POST /api/v1/auth/login username={}",
+                req.getUsername()
+        );
+
         Authentication auth = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword()));
         String token = jwtUtil.generateToken(auth.getName());
