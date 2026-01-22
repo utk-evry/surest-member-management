@@ -156,5 +156,21 @@ class MemberServiceImplTest {
         assertEquals(memberDto.getId(), result.getContent().get(0).getId());
         verify(memberRepository, times(1)).findAll(any(Pageable.class));
     }
+
+    @Test
+    void testGetAllMembers_sortDesc() {
+        List<Member> memberList = List.of(member);
+        Page<Member> memberPage = new PageImpl<>(memberList);
+
+        when(memberRepository.findAll(any(Pageable.class))).thenReturn(memberPage);
+        when(memberResponseMapper.toDto(member)).thenReturn(memberDto);
+
+        Page<MemberResponseDto> result =
+                memberService.getAllMembers(0, 10, "id", "desc");
+
+        assertEquals(1, result.getTotalElements());
+        verify(memberRepository).findAll(any(Pageable.class));
+    }
+
 }
 
