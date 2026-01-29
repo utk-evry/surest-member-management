@@ -1,7 +1,7 @@
 package com.tietoevry.surest_member_management.service.impl;
 
-import com.tietoevry.surest_member_management.dto.MemberCreateDto;
-import com.tietoevry.surest_member_management.dto.MemberResponseDto;
+import com.tietoevry.surest_member_management.dto.MemberCreateDTO;
+import com.tietoevry.surest_member_management.dto.MemberResponseDTO;
 import com.tietoevry.surest_member_management.entity.Member;
 import com.tietoevry.surest_member_management.exception.EmailAlreadyExistsException;
 import com.tietoevry.surest_member_management.exception.MemberNotFoundException;
@@ -11,7 +11,6 @@ import com.tietoevry.surest_member_management.service.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Cacheable(value = "members", key = "#id")
-    public MemberResponseDto getMemberById(UUID id) {
+    public MemberResponseDTO getMemberById(UUID id) {
         log.debug("Fetching member by id={}", id);
 
         Optional<Member> memberOp = memberRepository.findById(id);
@@ -50,7 +49,7 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
-    public Page<MemberResponseDto> getAllMembers(int page, int size, String sortBy, String sortDir) {
+    public Page<MemberResponseDTO> getAllMembers(int page, int size, String sortBy, String sortDir) {
         log.debug("Fetching all members page={}, size={}, sortBy={}, sortDir={}", page, size, sortBy, sortDir);
 
         Sort sort = sortDir.equalsIgnoreCase("desc")
@@ -65,7 +64,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Transactional
-    public MemberResponseDto createMember(MemberCreateDto requestMember) {
+    public MemberResponseDTO createMember(MemberCreateDTO requestMember) {
 
         log.debug("Creating member with email={}", requestMember.getEmail());
         if (memberRepository.existsByEmail(requestMember.getEmail())) {
@@ -88,7 +87,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @CacheEvict(value = "members", key = "#id")
-    public MemberResponseDto updateMember(UUID id, MemberCreateDto requestMember) {
+    public MemberResponseDTO updateMember(UUID id, MemberCreateDTO requestMember) {
 
         log.debug("Updating member with id={}", id);
         Optional<Member> memberOp = memberRepository.findById(id);

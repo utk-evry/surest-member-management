@@ -1,7 +1,7 @@
 package com.tietoevry.surest_member_management.controller;
 
-import com.tietoevry.surest_member_management.dto.MemberCreateDto;
-import com.tietoevry.surest_member_management.dto.MemberResponseDto;
+import com.tietoevry.surest_member_management.dto.MemberCreateDTO;
+import com.tietoevry.surest_member_management.dto.MemberResponseDTO;
 import com.tietoevry.surest_member_management.service.impl.MemberServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,13 +36,13 @@ class MemberControllerTest {
     void getMemberById_success() {
         UUID id = UUID.randomUUID();
 
-        MemberResponseDto responseDto = new MemberResponseDto();
+        MemberResponseDTO responseDto = new MemberResponseDTO();
         responseDto.setId(id);
         responseDto.setFirstName("Utkrisht");
 
         when(memberService.getMemberById(id)).thenReturn(responseDto);
 
-        ResponseEntity<MemberResponseDto> response =
+        ResponseEntity<MemberResponseDTO> response =
                 memberController.getMemberById(id);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -55,16 +55,16 @@ class MemberControllerTest {
 
     @Test
     void getAllMembers_success() {
-        MemberResponseDto member = new MemberResponseDto();
+        MemberResponseDTO member = new MemberResponseDTO();
         member.setId(UUID.randomUUID());
 
-        Page<MemberResponseDto> page =
+        Page<MemberResponseDTO> page =
                 new PageImpl<>(List.of(member));
 
         when(memberService.getAllMembers(0, 10, "id", "asc"))
                 .thenReturn(page);
 
-        Page<MemberResponseDto> result =
+        Page<MemberResponseDTO> result =
                 memberController.getAllMembers(0, 10, "id", "asc");
 
         assertEquals(1, result.getContent().size());
@@ -73,21 +73,21 @@ class MemberControllerTest {
 
     @Test
     void createMember_success() {
-        MemberCreateDto createDto = new MemberCreateDto();
+        MemberCreateDTO createDto = new MemberCreateDTO();
 
         createDto.setFirstName("Utkrisht");
         createDto.setLastName("Kumar");
         createDto.setEmail("utkrishtkumar@gmail.com");
         createDto.setDateOfBirth(LocalDate.of(1999,1,16));
 
-        MemberResponseDto responseDto = new MemberResponseDto();
+        MemberResponseDTO responseDto = new MemberResponseDTO();
         responseDto.setId(UUID.randomUUID());
         responseDto.setFirstName("Utkrisht");
 
         when(memberService.createMember(createDto))
                 .thenReturn(responseDto);
 
-        ResponseEntity<MemberResponseDto> response =
+        ResponseEntity<MemberResponseDTO> response =
                 memberController.createMember(createDto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -100,20 +100,20 @@ class MemberControllerTest {
     void updateMember_success() {
         UUID id = UUID.randomUUID();
 
-        MemberCreateDto updateDto = new MemberCreateDto();
+        MemberCreateDTO updateDto = new MemberCreateDTO();
                 updateDto.setFirstName("Updated");
                 updateDto.setLastName("User");
                 updateDto.setEmail("updated@tietoevry.com");
                 updateDto.setDateOfBirth(LocalDate.of(1999,1,16));
 
-        MemberResponseDto responseDto = new MemberResponseDto();
+        MemberResponseDTO responseDto = new MemberResponseDTO();
         responseDto.setId(id);
         responseDto.setFirstName("Updated");
 
         when(memberService.updateMember(id, updateDto))
                 .thenReturn(responseDto);
 
-        ResponseEntity<MemberResponseDto> response =
+        ResponseEntity<MemberResponseDTO> response =
                 memberController.updateMember(id, updateDto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());

@@ -1,8 +1,8 @@
 package com.tietoevry.surest_member_management.service;
 
 
-import com.tietoevry.surest_member_management.dto.MemberCreateDto;
-import com.tietoevry.surest_member_management.dto.MemberResponseDto;
+import com.tietoevry.surest_member_management.dto.MemberCreateDTO;
+import com.tietoevry.surest_member_management.dto.MemberResponseDTO;
 import com.tietoevry.surest_member_management.entity.Member;
 import com.tietoevry.surest_member_management.exception.EmailAlreadyExistsException;
 import com.tietoevry.surest_member_management.exception.MemberNotFoundException;
@@ -35,8 +35,8 @@ class MemberServiceImplTest {
     private MemberServiceImpl memberService;
 
     private Member member;
-    private MemberResponseDto memberDto;
-    private MemberCreateDto createDto;
+    private MemberResponseDTO memberDto;
+    private MemberCreateDTO createDto;
 
     private final UUID memberId = UUID.randomUUID();
 
@@ -50,14 +50,14 @@ class MemberServiceImplTest {
         member.setDateOfBirth(LocalDate.of(1990, 1, 1));
         member.setEmail("utkrisht.kumar@gmail.com");
 
-        memberDto = new MemberResponseDto();
+        memberDto = new MemberResponseDTO();
         memberDto.setId(memberId);
         memberDto.setFirstName("Utkrisht");
         memberDto.setLastName("Kumar");
         memberDto.setDateOfBirth(member.getDateOfBirth());
         memberDto.setEmail(member.getEmail());
 
-        createDto = new MemberCreateDto();
+        createDto = new MemberCreateDTO();
         createDto.setFirstName("Utkrisht");
         createDto.setLastName("Kumar");
         createDto.setDateOfBirth(member.getDateOfBirth());
@@ -69,7 +69,7 @@ class MemberServiceImplTest {
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
         when(memberResponseMapper.toDto(member)).thenReturn(memberDto);
 
-        MemberResponseDto result = memberService.getMemberById(memberId);
+        MemberResponseDTO result = memberService.getMemberById(memberId);
 
         assertNotNull(result);
         assertEquals(memberId, result.getId());
@@ -90,7 +90,7 @@ class MemberServiceImplTest {
         when(memberRepository.saveAndFlush(any(Member.class))).thenReturn(member);
         when(memberResponseMapper.toDto(member)).thenReturn(memberDto);
 
-        MemberResponseDto result = memberService.createMember(createDto);
+        MemberResponseDTO result = memberService.createMember(createDto);
 
         assertNotNull(result);
         assertEquals(memberDto.getEmail(), result.getEmail());
@@ -111,7 +111,7 @@ class MemberServiceImplTest {
         when(memberRepository.save(member)).thenReturn(member);
         when(memberResponseMapper.toDto(member)).thenReturn(memberDto);
 
-        MemberResponseDto result = memberService.updateMember(memberId, createDto);
+        MemberResponseDTO result = memberService.updateMember(memberId, createDto);
 
         assertNotNull(result);
         assertEquals(memberDto.getEmail(), result.getEmail());
@@ -150,7 +150,7 @@ class MemberServiceImplTest {
         when(memberRepository.findAll(any(Pageable.class))).thenReturn(memberPage);
         when(memberResponseMapper.toDto(member)).thenReturn(memberDto);
 
-        Page<MemberResponseDto> result = memberService.getAllMembers(0, 10, "id", "asc");
+        Page<MemberResponseDTO> result = memberService.getAllMembers(0, 10, "id", "asc");
 
         assertEquals(1, result.getTotalElements());
         assertEquals(memberDto.getId(), result.getContent().get(0).getId());
@@ -165,7 +165,7 @@ class MemberServiceImplTest {
         when(memberRepository.findAll(any(Pageable.class))).thenReturn(memberPage);
         when(memberResponseMapper.toDto(member)).thenReturn(memberDto);
 
-        Page<MemberResponseDto> result =
+        Page<MemberResponseDTO> result =
                 memberService.getAllMembers(0, 10, "id", "desc");
 
         assertEquals(1, result.getTotalElements());

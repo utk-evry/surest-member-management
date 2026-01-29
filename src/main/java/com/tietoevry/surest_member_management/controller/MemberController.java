@@ -1,7 +1,7 @@
 package com.tietoevry.surest_member_management.controller;
 
-import com.tietoevry.surest_member_management.dto.MemberCreateDto;
-import com.tietoevry.surest_member_management.dto.MemberResponseDto;
+import com.tietoevry.surest_member_management.dto.MemberCreateDTO;
+import com.tietoevry.surest_member_management.dto.MemberResponseDTO;
 import com.tietoevry.surest_member_management.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -25,17 +25,17 @@ public class MemberController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MemberResponseDto> getMemberById(@PathVariable UUID id){
+    public ResponseEntity<MemberResponseDTO> getMemberById(@PathVariable UUID id){
 
         log.info("Hit Endpoint: Get /api/v1/members/{}",id);
 
-        MemberResponseDto member = memberService.getMemberById(id);
+        MemberResponseDTO member = memberService.getMemberById(id);
 
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
 
     @GetMapping
-    public Page<MemberResponseDto> getAllMembers(
+    public Page<MemberResponseDTO> getAllMembers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -49,13 +49,13 @@ public class MemberController {
     }
 
     @PostMapping
-    public  ResponseEntity<MemberResponseDto> createMember(@Valid @RequestBody MemberCreateDto requestMember){
+    public  ResponseEntity<MemberResponseDTO> createMember(@Valid @RequestBody MemberCreateDTO requestMember){
         log.info("Hit Endpoint: POST /api/v1/members");
         return new ResponseEntity<>(memberService.createMember(requestMember),HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MemberResponseDto> updateMember(@PathVariable UUID id, @Valid @RequestBody MemberCreateDto requestMember){
+    public ResponseEntity<MemberResponseDTO> updateMember(@PathVariable UUID id, @Valid @RequestBody MemberCreateDTO requestMember){
         log.info("Hit Endpoint: PUT /api/v1/members/{}", id);
         return new ResponseEntity<>(memberService.updateMember(id,requestMember),HttpStatus.OK);
     }

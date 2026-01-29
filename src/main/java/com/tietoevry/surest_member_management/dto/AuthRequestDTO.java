@@ -6,12 +6,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthRequestDto {
+public class AuthRequestDTO {
 
-    @NotBlank(message = "Required field -- username")
+    @NotBlank(message = "Required field missing")
     private String username;
 
-    @NotBlank(message = "Required field -- password")
+    @NotBlank(message = "Required field missing")
     private String password;
 
 }

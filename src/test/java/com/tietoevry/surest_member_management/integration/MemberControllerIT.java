@@ -2,10 +2,10 @@ package com.tietoevry.surest_member_management.integration;
 
 
 
-import com.tietoevry.surest_member_management.dto.AuthRequestDto;
-import com.tietoevry.surest_member_management.dto.AuthResponseDto;
-import com.tietoevry.surest_member_management.dto.MemberCreateDto;
-import com.tietoevry.surest_member_management.dto.MemberResponseDto;
+import com.tietoevry.surest_member_management.dto.AuthRequestDTO;
+import com.tietoevry.surest_member_management.dto.AuthResponseDTO;
+import com.tietoevry.surest_member_management.dto.MemberCreateDTO;
+import com.tietoevry.surest_member_management.dto.MemberResponseDTO;
 import com.tietoevry.surest_member_management.repository.MemberRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -55,7 +55,7 @@ class MemberControllerIT {
     }
 
     private String getJwt(String username, String password) throws Exception {
-        AuthRequestDto request = new AuthRequestDto();
+        AuthRequestDTO request = new AuthRequestDTO();
             request.setUsername(username);
             request.setPassword(password);
         String json = objectMapper.writeValueAsString(request);
@@ -68,9 +68,9 @@ class MemberControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        AuthResponseDto authResponse = objectMapper.readValue(
+        AuthResponseDTO authResponse = objectMapper.readValue(
                 result.getResponse().getContentAsString(),
-                AuthResponseDto.class
+                AuthResponseDTO.class
         );
 
         return authResponse.getToken();
@@ -81,7 +81,7 @@ class MemberControllerIT {
     @Test
     void createMember_asAdmin_success() throws Exception {
         String token = fetchAdminToken();
-        MemberCreateDto dto = new MemberCreateDto();
+        MemberCreateDTO dto = new MemberCreateDTO();
                     dto.setFirstName("Utkrisht");
                     dto.setLastName("Kumar");
                     dto.setEmail("utkrisht.kumar@gmail.com");
@@ -140,7 +140,7 @@ class MemberControllerIT {
 
         UUID memberId = createMemberAndReturnId(token);
 
-        MemberCreateDto updateDto = new  MemberCreateDto();
+        MemberCreateDTO updateDto = new MemberCreateDTO();
         updateDto.setFirstName("Adarsh");
         updateDto.setLastName("Kumar");
         updateDto.setEmail("utkrisht.kumar@gmail.com");
@@ -196,7 +196,7 @@ class MemberControllerIT {
 //    /* -------------------- UTIL -------------------- */
 //
     private UUID createMemberAndReturnId(String token) throws Exception {
-        MemberCreateDto dto = new MemberCreateDto();
+        MemberCreateDTO dto = new MemberCreateDTO();
                             dto.setFirstName("Utkrisht");
                             dto.setLastName("Kumar");
                             dto.setDateOfBirth(LocalDate.of(1999,1,16));
@@ -212,9 +212,9 @@ class MemberControllerIT {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        MemberResponseDto response = objectMapper.readValue(
+        MemberResponseDTO response = objectMapper.readValue(
                 result.getResponse().getContentAsString(),
-                MemberResponseDto.class
+                MemberResponseDTO.class
         );
 
         return response.getId();

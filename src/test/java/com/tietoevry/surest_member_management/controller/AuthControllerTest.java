@@ -1,7 +1,7 @@
 package com.tietoevry.surest_member_management.controller;
 
-import com.tietoevry.surest_member_management.dto.AuthRequestDto;
-import com.tietoevry.surest_member_management.dto.AuthResponseDto;
+import com.tietoevry.surest_member_management.dto.AuthRequestDTO;
+import com.tietoevry.surest_member_management.dto.AuthResponseDTO;
 import com.tietoevry.surest_member_management.security.JwtUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +33,7 @@ class AuthControllerTest {
     @Test
     void login_withValidCredentials_returnsJwtToken() {
         // given
-        AuthRequestDto request = new AuthRequestDto();
+        AuthRequestDTO request = new AuthRequestDTO();
         request.setUsername("user");
         request.setPassword("password");
 
@@ -48,7 +48,7 @@ class AuthControllerTest {
                 .thenReturn("mocked-jwt-token");
 
         // when
-        ResponseEntity<AuthResponseDto> response =
+        ResponseEntity<AuthResponseDTO> response =
                 authController.login(request);
 
         // then
@@ -64,7 +64,7 @@ class AuthControllerTest {
     @Test
     void login_withInvalidCredentials_throwsException() {
         // given
-        AuthRequestDto request = new AuthRequestDto();
+        AuthRequestDTO request = new AuthRequestDTO();
         request.setUsername("user");
         request.setPassword("wrong");
 

@@ -1,12 +1,11 @@
 package com.tietoevry.surest_member_management.integration;
 
-import com.tietoevry.surest_member_management.dto.AuthRequestDto;
+import com.tietoevry.surest_member_management.dto.AuthRequestDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
@@ -29,7 +28,7 @@ class AuthControllerIT {
     @Test
     void login_withValidAdminCredentials_returnsJwtToken() throws Exception {
 
-        AuthRequestDto request = new AuthRequestDto();
+        AuthRequestDTO request = new AuthRequestDTO();
         request.setUsername("admin");
         request.setPassword("admin123");
 
@@ -46,7 +45,7 @@ class AuthControllerIT {
     @Test
     void login_withValidUserCredentials_returnsJwtToken() throws Exception {
 
-        AuthRequestDto request = new AuthRequestDto();
+        AuthRequestDTO request = new AuthRequestDTO();
         request.setUsername("user");
         request.setPassword("user123");
 
@@ -62,7 +61,7 @@ class AuthControllerIT {
     @Test
     void login_withInvalidPassword_returnsUnauthorized() throws Exception {
 
-        AuthRequestDto request = new AuthRequestDto();
+        AuthRequestDTO request = new AuthRequestDTO();
         request.setUsername("admin");
         request.setPassword("wrong-password");
 
@@ -77,7 +76,7 @@ class AuthControllerIT {
     @Test
     void login_withInvalidUsername_returnsUnauthorized() throws Exception {
 
-        AuthRequestDto request = new AuthRequestDto();
+        AuthRequestDTO request = new AuthRequestDTO();
         request.setUsername("unknown-user");
         request.setPassword("admin@123");
 
@@ -92,7 +91,7 @@ class AuthControllerIT {
     @Test
     void login_withMissingUsername_returnsBadRequest() throws Exception {
 
-        AuthRequestDto request = new AuthRequestDto();
+        AuthRequestDTO request = new AuthRequestDTO();
         request.setPassword("admin123");
 
         mockMvc.perform(
@@ -106,7 +105,7 @@ class AuthControllerIT {
     @Test
     void login_withMissingPassword_returnsBadRequest() throws Exception {
 
-        AuthRequestDto request = new AuthRequestDto();
+        AuthRequestDTO request = new AuthRequestDTO();
         request.setUsername("admin");
 
         mockMvc.perform(

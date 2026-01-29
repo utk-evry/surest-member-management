@@ -32,12 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        String uri = request.getRequestURI();
-        if (uri.startsWith("/api/v1/auth")) {
-            // skip JWT validation for login/register endpoints
-            filterChain.doFilter(request, response);
-            return;
-        }
+
 
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 

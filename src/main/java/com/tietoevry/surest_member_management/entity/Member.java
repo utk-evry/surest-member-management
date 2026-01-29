@@ -14,32 +14,24 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "member")
-@EntityListeners(AuditingEntityListener.class)
-public class Member {
+@Table
+public class Member extends BaseAuditEntity{
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    @Column(name = "first_name",nullable = false,length = 100)
+    @Column(name = "first_name", nullable = false, length = 100)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false,length = 100)
+    @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
 
-    @Column(name = "email",nullable = false,unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "date_of_birth",nullable = false)
+    @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
-    @Column(name = "created_at",nullable = false,updatable = false)
-    @CreatedDate
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
 
 }

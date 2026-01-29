@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class MemberCreateDto {
+public class MemberCreateDTO {
 
     @NotBlank(message = "Required field -- firstName")
     private String firstName;

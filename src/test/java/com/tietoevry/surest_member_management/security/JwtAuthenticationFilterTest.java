@@ -51,20 +51,20 @@ class JwtAuthenticationFilterTest {
     }
 
 
-    @Test
-    void shouldSkipJwtValidationForAuthEndpoints() throws Exception {
-        when(request.getRequestURI()).thenReturn("/api/v1/auth/login");
-
-        filter.doFilterInternal(request, response, filterChain);
-
-        verify(filterChain).doFilter(request, response);
-        verifyNoInteractions(jwtUtil, userDetailsService);
-    }
+//    @Test
+//    void shouldSkipJwtValidationForAuthEndpoints() throws Exception {
+//        when(request.getRequestURI()).thenReturn("/api/v1/auth/login");
+//
+//        filter.doFilterInternal(request, response, filterChain);
+//
+//        verify(filterChain).doFilter(request, response);
+//        verifyNoInteractions(jwtUtil, userDetailsService);
+//    }
 
 
     @Test
     void shouldContinueFilterWhenAuthorizationHeaderMissing() throws Exception {
-        when(request.getRequestURI()).thenReturn("/api/v1/test");
+//        when(request.getRequestURI()).thenReturn("/api/v1/test");
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(null);
 
         filter.doFilterInternal(request, response, filterChain);
@@ -76,7 +76,7 @@ class JwtAuthenticationFilterTest {
 
     @Test
     void shouldContinueFilterWhenAuthorizationHeaderInvalid() throws Exception {
-        when(request.getRequestURI()).thenReturn("/api/v1/test");
+//        when(request.getRequestURI()).thenReturn("/api/v1/test");
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn("Basic abc");
 
         filter.doFilterInternal(request, response, filterChain);
@@ -93,7 +93,7 @@ class JwtAuthenticationFilterTest {
 
         UserDetails userDetails = new User(username, "password", Collections.emptyList());
 
-        when(request.getRequestURI()).thenReturn("/api/v1/test");
+//        when(request.getRequestURI()).thenReturn("/api/v1/test");
         when(request.getHeader(HttpHeaders.AUTHORIZATION))
                 .thenReturn("Bearer " + token);
 
@@ -118,7 +118,7 @@ class JwtAuthenticationFilterTest {
     void shouldClearSecurityContextWhenJwtTokenIsInvalid() throws Exception {
         String token = "invalid-token";
 
-        when(request.getRequestURI()).thenReturn("/api/v1/test");
+//        when(request.getRequestURI()).thenReturn("/api/v1/test");
         when(request.getHeader(HttpHeaders.AUTHORIZATION))
                 .thenReturn("Bearer " + token);
 

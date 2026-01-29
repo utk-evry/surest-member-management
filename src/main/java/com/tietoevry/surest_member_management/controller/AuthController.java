@@ -1,7 +1,7 @@
 package com.tietoevry.surest_member_management.controller;
 
-import com.tietoevry.surest_member_management.dto.AuthRequestDto;
-import com.tietoevry.surest_member_management.dto.AuthResponseDto;
+import com.tietoevry.surest_member_management.dto.AuthRequestDTO;
+import com.tietoevry.surest_member_management.dto.AuthResponseDTO;
 import com.tietoevry.surest_member_management.security.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDto> login(@Valid @RequestBody AuthRequestDto req){
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody AuthRequestDTO req){
 
         log.info(
                 "Hit Endpoint: POST /api/v1/auth/login username={}",
@@ -39,7 +39,7 @@ public class AuthController {
         Authentication auth = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword()));
         String token = jwtUtil.generateToken(auth.getName());
-        AuthResponseDto authResponse = new AuthResponseDto();
+        AuthResponseDTO authResponse = new AuthResponseDTO();
         authResponse.setToken(token);
 
         return ResponseEntity.ok(authResponse);
